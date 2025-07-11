@@ -8,9 +8,12 @@ class AddressBook:
         self.contacts = []
 
     def add_contact(self, contact):
-        if isinstance(contact, dict):
-            self.contacts.append(contact)
-            
+        for existing in self.contacts:
+            if existing["email"] == contact["email"]:
+                print("Контакт з таким email вже існує")
+                return
+        self.contacts.append(contact)    
+    
     def get_contacts(self):
         return self.contacts
 
@@ -22,19 +25,17 @@ class AddressBook:
 
 def save_data(book, filename="addressbook.pkl"):
     """
-    Зберігає AddressBook у файл за допомогою pickle. Якщо файл не вдається зберегти, виводить повідомлення про помилку.
+    Зберігає AddressBook у файл за допомогою pickle. Якщо файл не вдається зберегти, виводити повідомлення про помилку
     """
     try:
         with open(filename, "wb") as f:
             pickle.dump(book, f)
-        print("Дані успішно збережено.")
+        print("Дані успішно збережено")
     except Exception as e:
         print(f"Помилка при збереженні: {e}")
 
 def load_data(filename="addressbook.pkl"):
-    """
-    Завантажує AddressBook з файлу, або створює нову книгу, якщо файл не знайдено.
-    """
+    
     try:
         with open(filename, "rb") as f:
             print("Дані завантажено.")
